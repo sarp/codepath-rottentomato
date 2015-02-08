@@ -14,50 +14,42 @@
 @import Foundation;
 
 @interface MoviesViewController ()
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *errorView;
 
-@end
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSDictionary *parsedData;
 
-NSDictionary *parsedData;
-UIRefreshControl *refreshControl;
+@end
 
 @implementation MoviesViewController
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [parsedData[@"movies"] count];
+    return [self.parsedData[@"movies"] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
-    MovieCell *movieCell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    if (movieCell == nil) {
-        NSArray* nibs = [[NSBundle mainBundle] loadNibNamed:@"MovieCell" owner:self options:nil];
-        movieCell = [nibs objectAtIndex:0];
-    }
-    
-    NSDictionary *currentMovie = [parsedData[@"movies"] objectAtIndex:[indexPath row]];
+    NSDictionary *currentMovie = [self.parsedData[@"movies"] objectAtIndex:[indexPath row]];
+
+    MovieCell *movieCell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell" forIndexPath:indexPath];
     movieCell.movieName.text = [currentMovie objectForKey:@"title"];
     movieCell.movieDescription.text = [currentMovie objectForKey:@"synopsis"];
-    NSLog(@"%@", [currentMovie valueForKeyPath:@"posters.thumbnail"]);
     [movieCell.movieImage setImageWithURL:[NSURL URLWithString:[currentMovie valueForKeyPath:@"posters.thumbnail"]]];
 
     return movieCell;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"Clicked on %ld", indexPath.row);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MovieDetailsViewController *controller = [[MovieDetailsViewController alloc] init];
-    controller.movieData = parsedData[@"movies"][indexPath.row];
+    controller.movieData = self.parsedData[@"movies"][indexPath.row];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void) refresh:(UIRefreshControl *)refreshControl {
-    NSLog(@"Refresh called");
     [refreshControl endRefreshing];
     [self loadDataFromNetwork];
 }
@@ -70,13 +62,10 @@ UIRefreshControl *refreshControl;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         if (connectionError != nil) {
-            NSLog(@"There was en error");
             [SVProgressHUD dismiss];
             [self.errorView setHidden:NO];
         } else {
-            //NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            parsedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSLog(@"%@", [parsedData allKeys]);
+            self.parsedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             [SVProgressHUD dismiss];
             [self.tableView reloadData];
         }
@@ -86,30 +75,20 @@ UIRefreshControl *refreshControl;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UINib *cell = [UINib nibWithNibName:@"MovieCell" bundle:nil];
+    [self.tableView registerNib:cell forCellReuseIdentifier:@"MovieCell"];
     self.tableView.rowHeight = 100;
     
-    refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     
-    [self.tableView addSubview:refreshControl];
+    [self.tableView addSubview:self.refreshControl];
     
     [self loadDataFromNetwork];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

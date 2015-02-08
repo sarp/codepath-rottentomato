@@ -10,12 +10,6 @@
 
 @implementation MovieCell
 
-/*
-@synthesize name = _name;
-@synthesize description = _description;
-@synthesize image = _image;
- */
-
 - (void)awakeFromNib {
     // Initialization code
 }

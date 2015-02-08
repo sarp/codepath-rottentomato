@@ -12,7 +12,9 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *movieImage;
 @property (weak, nonatomic) IBOutlet UILabel *movieTitle;
-@property (weak, nonatomic) IBOutlet UILabel *movieSynopsis;
+@property (weak, nonatomic) IBOutlet UITextView *movieSynopsis;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *movieScores;
 
 @property (strong, nonatomic) NSDictionary *movieData;
 
