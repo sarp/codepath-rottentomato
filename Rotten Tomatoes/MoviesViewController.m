@@ -21,9 +21,22 @@
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSDictionary *parsedData;
 
+@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
+@property (weak, nonatomic) IBOutlet UITabBarItem *boxOfficeTabBarItem;
+@property (weak, nonatomic) IBOutlet UITabBarItem *dvdTabBarItem;
+
+@property (strong, nonatomic) NSString *apiUrl;
+
 @end
 
 @implementation MoviesViewController
+
+- (id) initWithURL:(NSString*) apiURL accessToken:(NSString*) accessToken {
+    if ([super initWithNibName:@"MoviesViewController" bundle:nil]) {
+        self.apiUrl = [NSString stringWithFormat:@"%@?limit=30&country=us&apikey=%@", apiURL, accessToken];
+    }
+    return self;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -58,7 +71,7 @@
     [self.errorView setHidden:YES];
     [SVProgressHUD show];
 
-    NSURL *url = [NSURL URLWithString:@"http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?limit=30&country=us&apikey=ucc82c7tvbhcyxx65sac4gwz"];
+    NSURL *url = [NSURL URLWithString:self.apiUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         if (connectionError != nil) {
@@ -72,9 +85,19 @@
     }];
 }
 
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    if (item == self.boxOfficeTabBarItem) {
+        NSLog(@"Box Office item selected");
+    } else if (item == self.dvdTabBarItem) {
+        NSLog(@"DVD item selected");
+    } else {
+        NSLog(@"Unknown item selected");
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     UINib *cell = [UINib nibWithNibName:@"MovieCell" bundle:nil];
     [self.tableView registerNib:cell forCellReuseIdentifier:@"MovieCell"];
     self.tableView.rowHeight = 100;

@@ -15,15 +15,28 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+NSString * const kAccessToken = @"ucc82c7tvbhcyxx65sac4gwz";
+NSString * const kBoxOfficeURL = @"http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json";
+NSString * const kDVDURL = @"http://api.rottentomatoes.com/api/public/v1.0/lists/dvds/top_rentals.json";
 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    MoviesViewController *masterViewController = [[MoviesViewController alloc] initWithNibName:@"MoviesViewController" bundle:nil];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
+    MoviesViewController *firstTabController = [[MoviesViewController alloc] initWithURL:kBoxOfficeURL accessToken:kAccessToken];
+    UINavigationController *firstTabNavigationController = [[UINavigationController alloc] initWithRootViewController:firstTabController];
+    firstTabNavigationController.tabBarItem.title = @"Office Box";
+    firstTabNavigationController.tabBarItem.image = [UIImage imageNamed:@"movie.png"];
+
     
-    self.window.rootViewController = navigationController;
+    MoviesViewController *secondTabController = [[MoviesViewController alloc] initWithURL:kDVDURL accessToken:kAccessToken];
+    UINavigationController *secondTabNavigationController = [[UINavigationController alloc] initWithRootViewController:secondTabController];
+    secondTabNavigationController.tabBarItem.title = @"Top DVDs";
+    secondTabNavigationController.tabBarItem.image = [UIImage imageNamed:@"dvd.png"];
+    
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    tabBarController.viewControllers = @[firstTabNavigationController, secondTabNavigationController];
+    
+    self.window.rootViewController = tabBarController;
     [self.window makeKeyAndVisible];
     
     return YES;

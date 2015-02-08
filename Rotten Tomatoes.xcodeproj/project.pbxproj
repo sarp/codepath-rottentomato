@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		619F7622298E22A7EFFC8139 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9457886987FE47F8E4F7F9AB /* libPods.a */; };
 		D1247E121A81DA7E00DA98C2 /* Main.xib in Resources */ = {isa = PBXBuildFile; fileRef = D1247E111A81DA7E00DA98C2 /* Main.xib */; };
+		D154AA0B1A876B110049C417 /* dvd.png in Resources */ = {isa = PBXBuildFile; fileRef = D154AA0A1A876B110049C417 /* dvd.png */; };
+		D154AA0D1A876C180049C417 /* movie.png in Resources */ = {isa = PBXBuildFile; fileRef = D154AA0C1A876C180049C417 /* movie.png */; };
 		D167EBB31A847763008862F4 /* MovieDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D167EBB11A847763008862F4 /* MovieDetailsViewController.m */; };
 		D167EBB41A847763008862F4 /* MovieDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D167EBB21A847763008862F4 /* MovieDetailsViewController.xib */; };
 		D17D08D51A81558E00A886D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D17D08D41A81558E00A886D9 /* main.m */; };
@@ -36,6 +38,8 @@
 		9457886987FE47F8E4F7F9AB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A71CE3220B0F87E5E6023CA8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D1247E111A81DA7E00DA98C2 /* Main.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Main.xib; sourceTree = "<group>"; };
+		D154AA0A1A876B110049C417 /* dvd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dvd.png; sourceTree = "<group>"; };
+		D154AA0C1A876C180049C417 /* movie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movie.png; sourceTree = "<group>"; };
 		D167EBB01A847763008862F4 /* MovieDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieDetailsViewController.h; sourceTree = "<group>"; };
 		D167EBB11A847763008862F4 /* MovieDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieDetailsViewController.m; sourceTree = "<group>"; };
 		D167EBB21A847763008862F4 /* MovieDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MovieDetailsViewController.xib; sourceTree = "<group>"; };
@@ -92,6 +96,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		D154AA091A876AF80049C417 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				D154AA0C1A876C180049C417 /* movie.png */,
+				D154AA0A1A876B110049C417 /* dvd.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		D17D08C61A81558E00A886D9 = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +128,7 @@
 		D17D08D11A81558E00A886D9 /* Rotten Tomatoes */ = {
 			isa = PBXGroup;
 			children = (
+				D154AA091A876AF80049C417 /* Images */,
 				D17D08FE1A815C9D00A886D9 /* Views */,
 				D17D08FD1A815C9500A886D9 /* View Controllers */,
 				D17D08D61A81558E00A886D9 /* AppDelegate.h */,
@@ -259,8 +273,10 @@
 			files = (
 				D17D09081A815D4D00A886D9 /* MovieCell.xib in Resources */,
 				D17D08E01A81558E00A886D9 /* Images.xcassets in Resources */,
+				D154AA0D1A876C180049C417 /* movie.png in Resources */,
 				D1247E121A81DA7E00DA98C2 /* Main.xib in Resources */,
 				D18BE3891A81D59A00AF5C69 /* MoviesViewController.xib in Resources */,
+				D154AA0B1A876B110049C417 /* dvd.png in Resources */,
 				D167EBB41A847763008862F4 /* MovieDetailsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
