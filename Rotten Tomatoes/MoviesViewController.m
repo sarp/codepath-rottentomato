@@ -9,7 +9,7 @@
 #import "MoviesViewController.h"
 #import "MovieCell.h"
 #import "SVProgressHUD.h"
-#import "UIImageView+AFNetworking.h"
+#import "UIImageView+FadeIn.h"
 #import "MovieDetailsViewController.h"
 @import Foundation;
 
@@ -51,9 +51,12 @@
     NSDictionary *currentMovie = self.searchResults[indexPath.row];
 
     MovieCell *movieCell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell" forIndexPath:indexPath];
+    [movieCell.movieImage stopAnimating];
+    movieCell.movieImage.alpha = 0;
     movieCell.movieName.text = [currentMovie objectForKey:@"title"];
     movieCell.movieDescription.text = [currentMovie objectForKey:@"synopsis"];
-    [movieCell.movieImage setImageWithURL:[NSURL URLWithString:[currentMovie valueForKeyPath:@"posters.thumbnail"]]];
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[currentMovie valueForKeyPath:@"posters.thumbnail"]]];
+    [movieCell.movieImage setImageWithURLRequest:imageRequest success:nil failure:nil];
 
     return movieCell;
 }
@@ -97,7 +100,6 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    NSLog(@"textdidChange: %@", searchText);
     [self.searchResults removeAllObjects];
     if (searchText.length == 0) {
         [self.searchResults addObjectsFromArray:self.parsedData[@"movies"]];

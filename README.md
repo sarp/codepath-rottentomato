@@ -17,8 +17,8 @@ Time spent: `10`
 #### Optional
 - [x] Add a tab bar for Box Office and DVD.
 - [x] Add a search bar.
+- [x] All images fade in.
 - [ ] Implement segmented control to switch between list view and grid view.
-- [ ] All images fade in.
 - [ ] For the large poster, load the low-res image first, switch to high-res when complete.
 - [ ] Customize the highlight and selection effect of the cell.
 - [ ] Customize the navigation bar.

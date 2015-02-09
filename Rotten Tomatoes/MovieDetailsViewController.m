@@ -7,7 +7,7 @@
 //
 
 #import "MovieDetailsViewController.h"
-#import "UIImageView+AFNetworking.h"
+#import "UIImageView+FadeIn.h"
 
 @interface MovieDetailsViewController ()
 
@@ -37,8 +37,7 @@
     [self.loadingIndicator setHidden:NO];
     [self.loadingIndicator startAnimating];
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:original]];
-    [self.movieImage setImageWithURLRequest:imageRequest placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-        self.movieImage.image = image;
+    [self.movieImage setImageWithURLRequest:imageRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         [self.loadingIndicator stopAnimating];
         [self.loadingIndicator setHidden:YES];
         

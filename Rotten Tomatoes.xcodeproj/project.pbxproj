@@ -21,6 +21,7 @@
 		D17D09081A815D4D00A886D9 /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D17D09061A815D4D00A886D9 /* MovieCell.xib */; };
 		D18BE3881A81D59A00AF5C69 /* MoviesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D18BE3861A81D59A00AF5C69 /* MoviesViewController.m */; };
 		D18BE3891A81D59A00AF5C69 /* MoviesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D18BE3871A81D59A00AF5C69 /* MoviesViewController.xib */; };
+		D1FB352E1A8850B8004E8C36 /* UIImageView+FadeIn.m in Sources */ = {isa = PBXBuildFile; fileRef = D1FB352D1A8850B8004E8C36 /* UIImageView+FadeIn.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,8 @@
 		D18BE3851A81D59A00AF5C69 /* MoviesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoviesViewController.h; sourceTree = "<group>"; };
 		D18BE3861A81D59A00AF5C69 /* MoviesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoviesViewController.m; sourceTree = "<group>"; };
 		D18BE3871A81D59A00AF5C69 /* MoviesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoviesViewController.xib; sourceTree = "<group>"; };
+		D1FB352C1A8850B8004E8C36 /* UIImageView+FadeIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+FadeIn.h"; sourceTree = "<group>"; };
+		D1FB352D1A8850B8004E8C36 /* UIImageView+FadeIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+FadeIn.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +188,8 @@
 				D17D09041A815D4D00A886D9 /* MovieCell.h */,
 				D17D09051A815D4D00A886D9 /* MovieCell.m */,
 				D17D09061A815D4D00A886D9 /* MovieCell.xib */,
+				D1FB352C1A8850B8004E8C36 /* UIImageView+FadeIn.h */,
+				D1FB352D1A8850B8004E8C36 /* UIImageView+FadeIn.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -331,6 +336,7 @@
 				D167EBB31A847763008862F4 /* MovieDetailsViewController.m in Sources */,
 				D17D08D81A81558E00A886D9 /* AppDelegate.m in Sources */,
 				D17D09071A815D4D00A886D9 /* MovieCell.m in Sources */,
+				D1FB352E1A8850B8004E8C36 /* UIImageView+FadeIn.m in Sources */,
 				D17D08D51A81558E00A886D9 /* main.m in Sources */,
 				D18BE3881A81D59A00AF5C69 /* MoviesViewController.m in Sources */,
 			);
