@@ -2,7 +2,7 @@
 
 This is a movies app displaying box office and top rental DVDs using the [Rotten Tomatoes API](http://developer.rottentomatoes.com/docs/read/JSON).
 
-Time spent: `10`
+Time spent: `20`
 
 ### Features
 
@@ -18,8 +18,8 @@ Time spent: `10`
 - [x] Add a tab bar for Box Office and DVD.
 - [x] Add a search bar.
 - [x] All images fade in.
-- [ ] Implement segmented control to switch between list view and grid view.
 - [x] For the large poster, load the low-res image first, switch to high-res when complete.
+- [ ] Implement segmented control to switch between list view and grid view.
 - [ ] Customize the highlight and selection effect of the cell.
 - [ ] Customize the navigation bar.
 
