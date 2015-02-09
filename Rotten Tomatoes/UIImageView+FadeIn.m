@@ -12,8 +12,11 @@
 @implementation UIImageView (FadeIn)
 
 - (void)setImageWithURLRequest:(NSURLRequest *)urlRequest
+                       placeholderImage:(UIImage *)placeholderImage
                        success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
-                       failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure {
+                       failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure
+                       fadeDuration:(NSTimeInterval)duration
+{
     
     void (^myblock)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) = ^void((NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)) {
         
@@ -26,7 +29,7 @@
         
         // Only animate for network loads, do not animate from cache
         if (request) {
-            [UIView animateWithDuration:3.0 animations:^{
+            [UIView animateWithDuration:duration animations:^{
                 self.alpha = 1.0;
             }];
         } else {
@@ -34,7 +37,7 @@
         }
     };
     
-    [self setImageWithURLRequest:urlRequest placeholderImage:nil success:myblock failure:failure];
+    [self setImageWithURLRequest:urlRequest placeholderImage:placeholderImage success:myblock failure:failure];
 }
 
 @end

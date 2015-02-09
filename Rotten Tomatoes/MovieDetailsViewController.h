@@ -17,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *movieScores;
 
 @property (strong, nonatomic) NSDictionary *movieData;
+@property (strong, nonatomic) UIImage *thumbnail;
 
 @end

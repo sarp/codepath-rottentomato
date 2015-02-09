@@ -56,7 +56,7 @@
     movieCell.movieName.text = [currentMovie objectForKey:@"title"];
     movieCell.movieDescription.text = [currentMovie objectForKey:@"synopsis"];
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[currentMovie valueForKeyPath:@"posters.thumbnail"]]];
-    [movieCell.movieImage setImageWithURLRequest:imageRequest success:nil failure:nil];
+    [movieCell.movieImage setImageWithURLRequest:imageRequest placeholderImage: nil success:nil failure:nil fadeDuration:3.0];
 
     return movieCell;
 }
@@ -68,6 +68,7 @@
     [self.movieSearchBar resignFirstResponder];
     // Navigate to movie
     MovieDetailsViewController *controller = [[MovieDetailsViewController alloc] init];
+    controller.thumbnail = ((MovieCell*)[tableView cellForRowAtIndexPath:indexPath]).movieImage.image;
     controller.movieData = self.searchResults[indexPath.row];
     [self.navigationController pushViewController:controller animated:YES];
 }

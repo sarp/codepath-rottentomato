@@ -37,14 +37,14 @@
     [self.loadingIndicator setHidden:NO];
     [self.loadingIndicator startAnimating];
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:original]];
-    [self.movieImage setImageWithURLRequest:imageRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [self.movieImage setImageWithURLRequest:imageRequest placeholderImage:self.thumbnail success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         [self.loadingIndicator stopAnimating];
         [self.loadingIndicator setHidden:YES];
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         [self.loadingIndicator stopAnimating];
         [self.loadingIndicator setHidden:YES];
-    }];
+    } fadeDuration:3.0];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,3 +52,5 @@
 }
 
 @end
+
+

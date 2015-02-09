@@ -11,7 +11,9 @@
 @interface UIImageView (FadeIn)
 
 - (void)setImageWithURLRequest:(NSURLRequest *)urlRequest
+                       placeholderImage:(UIImage *)placeholderImage
                        success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
-                       failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure;
+                       failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure
+                       fadeDuration:(NSTimeInterval) duration;
 
 @end
