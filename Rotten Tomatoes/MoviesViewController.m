@@ -71,8 +71,6 @@
 
 - (void) refresh:(UIRefreshControl *)refreshControl {
     [refreshControl endRefreshing];
-    
-    self.movieSearchBar.text = @"";
     [self loadDataFromNetwork];
 }
 
@@ -80,7 +78,6 @@
     [self.errorView setHidden:YES];
     [SVProgressHUD show];
     [self.movieSearchBar resignFirstResponder];
-    [self.searchResults removeAllObjects];
     
     NSURL *url = [NSURL URLWithString:self.apiUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -90,6 +87,8 @@
             [self.errorView setHidden:NO];
         } else {
             self.parsedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            self.movieSearchBar.text = @"";
+            [self.searchResults removeAllObjects];
             [self.searchResults addObjectsFromArray:self.parsedData[@"movies"]];
             [SVProgressHUD dismiss];
             [self.tableView reloadData];
