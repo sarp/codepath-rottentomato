@@ -20,32 +20,35 @@
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) NSDictionary *parsedData;
+@property (strong, nonatomic) NSMutableArray *searchResults;
 
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 @property (weak, nonatomic) IBOutlet UITabBarItem *boxOfficeTabBarItem;
 @property (weak, nonatomic) IBOutlet UITabBarItem *dvdTabBarItem;
 
 @property (strong, nonatomic) NSString *apiUrl;
+@property (weak, nonatomic) IBOutlet UISearchBar *movieSearchBar;
 
 @end
 
 @implementation MoviesViewController
 
 - (id) initWithURL:(NSString*) apiURL accessToken:(NSString*) accessToken {
-    if ([super initWithNibName:@"MoviesViewController" bundle:nil]) {
+    if ((self = [super initWithNibName:@"MoviesViewController" bundle:nil])) {
         self.apiUrl = [NSString stringWithFormat:@"%@?limit=30&country=us&apikey=%@", apiURL, accessToken];
+        self.searchResults = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.parsedData[@"movies"] count];
+    return self.searchResults.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *currentMovie = [self.parsedData[@"movies"] objectAtIndex:[indexPath row]];
+    NSDictionary *currentMovie = self.searchResults[indexPath.row];
 
     MovieCell *movieCell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell" forIndexPath:indexPath];
     movieCell.movieName.text = [currentMovie objectForKey:@"title"];
@@ -56,21 +59,29 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Deselect current row
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    // Dismiss search bar
+    [self.movieSearchBar resignFirstResponder];
+    // Navigate to movie
     MovieDetailsViewController *controller = [[MovieDetailsViewController alloc] init];
-    controller.movieData = self.parsedData[@"movies"][indexPath.row];
+    controller.movieData = self.searchResults[indexPath.row];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void) refresh:(UIRefreshControl *)refreshControl {
     [refreshControl endRefreshing];
+    
+    self.movieSearchBar.text = @"";
     [self loadDataFromNetwork];
 }
 
 - (void) loadDataFromNetwork {
     [self.errorView setHidden:YES];
     [SVProgressHUD show];
-
+    [self.movieSearchBar resignFirstResponder];
+    [self.searchResults removeAllObjects];
+    
     NSURL *url = [NSURL URLWithString:self.apiUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -79,20 +90,35 @@
             [self.errorView setHidden:NO];
         } else {
             self.parsedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            [self.searchResults addObjectsFromArray:self.parsedData[@"movies"]];
             [SVProgressHUD dismiss];
             [self.tableView reloadData];
         }
     }];
 }
 
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    if (item == self.boxOfficeTabBarItem) {
-        NSLog(@"Box Office item selected");
-    } else if (item == self.dvdTabBarItem) {
-        NSLog(@"DVD item selected");
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    NSLog(@"textdidChange: %@", searchText);
+    [self.searchResults removeAllObjects];
+    if (searchText.length == 0) {
+        [self.searchResults addObjectsFromArray:self.parsedData[@"movies"]];
     } else {
-        NSLog(@"Unknown item selected");
+        for (NSDictionary *movie in self.parsedData[@"movies"]) {
+            NSRange range = [movie[@"title"] rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            if (range.location != NSNotFound) {
+                [self.searchResults addObject:movie];
+            }
+        }
     }
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self.movieSearchBar resignFirstResponder];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewDidLoad {
